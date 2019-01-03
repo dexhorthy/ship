@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/cli"
 	"github.com/replicatedhq/libyaml"
 	"github.com/replicatedhq/ship/pkg/api"
@@ -25,6 +26,9 @@ type daemonResolverTestCase struct {
 }
 
 func TestDaemonResolver(t *testing.T) {
+
+	gin.SetMode(gin.ReleaseMode) // suppress routes logging output
+
 	tests := []daemonResolverTestCase{
 		{
 			name: "test_resolve_noitems",
