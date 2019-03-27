@@ -52,8 +52,7 @@ func (s *Ship) preserveDebugLogsOrRequestReRun() {
 	} else {
 		s.UI.Info(fmt.Sprintf(
 			"There was an error configuring the application. "+
-				"A debug log has been written to %q, please include it "+
-				"in any support inquiries.",
+				"A debug log has been written to %q",
 			debugLogFile),
 		)
 	}
