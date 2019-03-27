@@ -10,13 +10,68 @@ import (
 	"github.com/go-kit/kit/log/level"
 	"github.com/go-stack/stack"
 	multierror "github.com/hashicorp/go-multierror"
+	"github.com/mitchellh/cli"
 	"github.com/replicatedhq/ship/pkg/constants"
+	"github.com/replicatedhq/ship/pkg/ui"
 	"github.com/spf13/afero"
 	"github.com/spf13/viper"
 )
 
 type compositeLogger struct {
 	loggers []log.Logger
+}
+
+var _ log.Logger = &prettyLogger{}
+
+type prettyLogger struct {
+	UI cli.Ui
+}
+
+func (p *prettyLogger) Log(keyvals ...interface{}) error {
+	event := ""
+	msg := ""
+	var sstruct string
+	var method string
+	var ts string
+	var next *string
+	var devnull string
+	var unknown int
+
+	for index, keyval := range keyvals {
+		if index%2 == 1 {
+			if v, ok := keyval.(log.Valuer); ok {
+				keyval = v()
+			}
+			*next = fmt.Sprintf("%s", keyval)
+			continue
+		}
+
+		switch keyval {
+		case "event":
+			next = &event
+			continue
+		case "struct":
+			next = &sstruct
+			continue
+		case "method":
+			next = &method
+			continue
+		case "message":
+			fallthrough
+		case "msg":
+			next = &method
+			continue
+		case "ts":
+			next = &ts
+			continue
+		}
+
+		next = &devnull // drop unknown keys for now
+		unknown += 1
+	}
+
+	p.UI.Output(fmt.Sprintf("%s [%s.%s]: %s %s (+%d unknown)", ts, sstruct, method, event, msg, unknown))
+	return nil
 }
 
 func (c *compositeLogger) Log(keyvals ...interface{}) error {
@@ -32,7 +87,7 @@ func New(v *viper.Viper, fs afero.Afero) log.Logger {
 
 	fullPathCaller := pathCaller(6)
 	var stdoutLogger log.Logger
-	stdoutLogger = withFormat(viper.GetString("log-format"))
+	stdoutLogger = withFormat(viper.GetString("log-format"), v)
 	stdoutLogger = log.With(stdoutLogger, "ts", log.DefaultTimestampUTC)
 	stdoutLogger = log.With(stdoutLogger, "caller", fullPathCaller)
 	stdoutLogger = withLevel(stdoutLogger, v.GetString("log-level"))
@@ -68,12 +123,14 @@ func New(v *viper.Viper, fs afero.Afero) log.Logger {
 	return realLogger
 }
 
-func withFormat(format string) log.Logger {
+func withFormat(format string, v *viper.Viper) log.Logger {
 	switch format {
 	case "json":
 		return log.NewJSONLogger(os.Stdout)
 	case "logfmt":
 		return log.NewLogfmtLogger(os.Stdout)
+	case "pretty":
+		return &prettyLogger{ui.FromViper(v)}
 	default:
 		return log.NewLogfmtLogger(os.Stdout)
 	}
