@@ -8,12 +8,20 @@ Ship
 [![Go Report Card](https://goreportcard.com/badge/github.com/replicatedhq/ship)](https://goreportcard.com/report/github.com/replicatedhq/ship)
 [![GitHub stars](https://img.shields.io/github/stars/replicatedhq/ship.svg)](https://github.com/replicatedhq/ship/stargazers)
 
-Replicated Ship is an open source project by [Replicated](https://www.replicated.com) with two primary goals.
+Replicated Ship is an open source project by [Replicated](https://www.replicated.com) with three primary goals.
 
-1. Introduce users [Kustomize](https://www.kustomize.io) through an easy to use UI & migration tools.
+1. Introduce users to [Kustomize](https://www.kustomize.io) through an easy to use UI & migration tools.
 1. Automate the maintainence of 3rd-party applications (open source or proprietary) deployed to a [Kubernetes](https://kubernetes.io) cluster.
+1. Enable application developers to package and deliver a canonical version of their application configuration while encouraging last-mile customizations through overlays vs forking or upstream requests.
 
-The initial release of Replicated Ship exposes the power of Kustomize as an advanced custom configuration management tool for [Helm charts](https://www.github.com/helm/charts), Kubernetes manifests and [Knative](https://github.com/knative/) applications.
+# Onboarding to Kustomize
+The initial release of Replicated Ship exposes the power of Kustomize as an advanced custom configuration management tool for [Helm charts](https://www.github.com/helm/charts), Kubernetes manifests and [Knative](https://github.com/knative/) applications. The easy to use UI of Ship (headed via `ship init`) calculates the minimal patch YAML required to build an overlay.
+{gif of calculation}
+Additionally, the UI previews the diff that will be the result of apply the drafted overlay.
+{gif of diff preview}
+The conclusion the `init` mode will result in the creation of a directory that includes the finalized overlay YAML files, a kustomization.yaml and a Ship state.json. 
+
+# Automated maintainence of 3rd-pary applications
 With Ship, cluster operators can automatically stay in sync with upstream changes (ie. via automated pull requests or another form of automation) while preserving their local, custom configurations and extensions (add, deletes and edits) without git merge conflicts.
 This is possible because of how the three operating modes of Ship invoke, store, and apply Kustomizations made by the cluster operator.
 
@@ -47,7 +55,10 @@ Ship is designed to provide first-time configuration UI and/or be used headless 
 - Watch upstream repos for updates & sync changes to your local version.
 - Render [Helm](https://helm.sh/) charts to pure Kubernetes yaml that can be deployed to clusters without Tiller
 - Enables [GitOps](https://www.weave.works/blog/the-gitops-pipeline) workflows to update third party applications
-- Configuration workflow `ship.yaml` files can be included in [Helm](https://helm.sh/) chart repos, to customize the initial `ship init` experience
+
+# Enable app developers to allow for last-mile configuration
+- Configuration workflow `ship.yaml` files can be included in Kubernetes manifest or [Helm](https://helm.sh/) chart repos, to customize the initial `ship init` experience.
+- Support for the distribution of proprietary, commercial applications is available through [Replicated Vendor](https://www.replicated.com/vendor).
 
 # Getting Started
 
