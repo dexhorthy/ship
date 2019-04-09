@@ -10,12 +10,12 @@ Ship
 
 Replicated Ship is an open source project by [Replicated](https://www.replicated.com) with three primary goals.
 
-1. Onboarding users to [Kustomize](https://www.kustomize.io) & the `kubectl apply -k` command through an easy to use UI & migration tools.
+1. Onboarding users to [Kustomize](https://www.kustomize.io) & the `kubectl apply -k` command through an easy-to-use UI & migration tools.
 1. Automate the maintainence of 3rd-party applications (open source or proprietary) deployed to a [Kubernetes](https://kubernetes.io) cluster.
-1. Enable application developers to package and deliver a canonical version of their application configuration while encouraging last-mile customizations through overlays vs forking or upstream requests.
+1. Enable application developers to package and deliver a canonical version of their application configuration while encouraging last-mile customizations through overlays instead of forking or upstream requests.
 
 ## Onboarding to Kustomize
-The initial release of Replicated Ship exposes the power of Kustomize as an advanced custom configuration management tool for [Helm charts](https://www.github.com/helm/charts), Kubernetes manifests and [Knative](https://github.com/knative/) applications. The easy to use UI of Ship (headed via `ship init`) calculates the minimal patch YAML required to build an overlay.
+The initial release of Replicated Ship exposes the power of Kustomize as an advanced custom configuration management tool for [Helm charts](https://www.github.com/helm/charts), Kubernetes manifests and [Knative](https://github.com/knative/) applications. The easy to use UI of Ship (launched via `ship init`) calculates the minimal patch YAML required to build an overlay.
 ![gif of calculation](https://d1jfzjx68gj8xs.cloudfront.net/items/06001F1w0Z2E0423353n/%5B5f1cf4c19f7ab419c8e0470a0fcebc36%5D_calc-patch.gif)  
 
 Additionally, the Ship UI previews the diff that will be the result of applying the drafted overlay.
@@ -26,10 +26,10 @@ Finally, the `unfork` command can [migrate forked manifests](#unforking) and env
 The output of the `init` and `unfork` modes will result in the creation of a directory that includes the finalized overlay YAML files, a kustomization.yaml and a Ship state.json. 
 
 ## Automated maintainence of 3rd-pary applications
-With Ship, cluster operators can automatically stay in sync with upstream changes (ie. via automated pull requests or another form of automation) while preserving their local, custom configurations and extensions (add, deletes and edits) without git merge conflicts. This is possible because of how the [three operating modes](#three-operating-modes) of Ship invoke, store, and apply Kustomizations made by the cluster operator.
+With Ship, cluster operators can automatically stay in sync with upstream changes (ie. via automated pull requests or another form of automation) while preserving their local, custom configurations and extensions (adds, deletes and edits) without git merge conflicts. This is possible because of how the [three operating modes](#three-operating-modes) of Ship invoke, store, and apply Kustomizations made by the cluster operator.
 
 ## Enable app developers to allow for last-mile configuration
-- Configuration workflow `ship.yaml` files can be included in Kubernetes manifest or [Helm](https://helm.sh/) chart repos, to customize the initial `ship init` experience. See [Customizing the Configuration Experience](#customizing-the-configuration-experience) for more details.
+- Configuration workflow `ship.yaml` files can be included in Kubernetes manifest or [Helm](https://helm.sh/) chart repos, to customize the initial `ship init` experience. See [Customizing the Configuration Experience](#customizing-the-configuration-experience) for more details or check out the examples in the [github.com/shipapps](https://github.com/shipapps) org.
 - Support for the distribution of proprietary, commercial applications is available through [Replicated Vendor](https://www.replicated.com/vendor).
 
 Read on for more details on Ship features and operating modes, or skip ahead to [getting started](#getting-started).
