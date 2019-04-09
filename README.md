@@ -16,7 +16,7 @@ Replicated Ship is an open source project by [Replicated](https://www.replicated
 
 ## Onboarding to Kustomize
 The initial release of Replicated Ship exposes the power of Kustomize as an advanced custom configuration management tool for [Helm charts](https://www.github.com/helm/charts), Kubernetes manifests and [Knative](https://github.com/knative/) applications. The easy to use UI of Ship (headed via `ship init`) calculates the minimal patch YAML required to build an overlay.
-![gif of calculation](https://d1jfzjx68gj8xs.cloudfront.net/items/0B2V0k3623412T1k103G/%5B38bf70342e489538c54bfedaf9c9f39e%5D_ship-init.gif)  
+![gif of calculation](https://d1jfzjx68gj8xs.cloudfront.net/items/3H3k1F2n2i3y3u3Q2O1J/%5B7bcbca20e27cfd8dad201d02bf461e4c%5D_show-diff.gif)  
 Additionally, the UI previews the diff that will be the result of apply the drafted overlay.
 
 Finally, the `unfork` command can [migrate forked manifests](#unforking) and environment versions to Kustomize.
